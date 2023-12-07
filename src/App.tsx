@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import './App.scss';
 import { Form, Joke } from './components';
+import { FormDataStructure } from './components/form'
 import { ArrowUturnLeftIcon } from '@heroicons/react/24/outline';
 import sourceOfJokes from './source/jokes-data';
 
+interface JokesDataStructure {
+    id?: number
+    type: string
+    setup: string
+    punchline: string
+}
+
 function App() {
-  const [userName, setUserName] = useState();
-  const [jokesData, setJokesData] = useState([]);
+  const [userName, setUserName] = useState<string>('');
+  const [jokesData, setJokesData] = useState<JokesDataStructure[]>([]);
 
   // const fetchData = async (type, count) => {
   //   const resp = await fetch(`https://official-joke-api.appspot.com/jokes/${type}/ten`)
@@ -14,7 +22,7 @@ function App() {
   //   setJokesData(data.slice(0, count));
   // };
 
-  const generateJokesData = (type, count, source) => {
+  const generateJokesData = (type: string, count: number, source: JokesDataStructure[]) => {
     const data = [...source];
     setJokesData(data
       .filter(item => item.type === type)
@@ -22,7 +30,7 @@ function App() {
       .slice(0, count));
   };
 
-  const handleSendData = (data) => {
+  const handleSendData = (data: FormDataStructure) => {
     setUserName(data.name);
     // fetchData(data.type, data.count);
     generateJokesData(data.type, data.count, sourceOfJokes);

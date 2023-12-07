@@ -4,7 +4,17 @@ import './form.scss';
 
 const TYPES = ['general', 'dad', 'knock-knock', 'programming'];
 
-export const Form = ({ onSubmitData }) => {
+interface FormProps {
+    onSubmitData: (data: FormDataStructure) => void;
+}
+
+export interface FormDataStructure {
+    name: string
+    type: string
+    count: number
+}
+
+export const Form: React.FC<FormProps> = ({ onSubmitData }) => {
   const [formData, setFormData] = useState({
     name: '',
     type: '',
@@ -16,7 +26,7 @@ export const Form = ({ onSubmitData }) => {
     options.push(i + 1);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitData(formData);
   };
@@ -51,7 +61,7 @@ export const Form = ({ onSubmitData }) => {
         <select
           className="form__input"
           name='name'
-          onChange={(e) => setFormData({...formData, count: e.target.value})}
+          onChange={(e) => setFormData({...formData, count: Number(e.target.value)})}
           required
         >
           <option value="">Select one</option>
